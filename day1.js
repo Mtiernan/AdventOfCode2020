@@ -1,3 +1,8 @@
+/* Day 1 solution both parts 1 and 2 are implemted using linear comparsion using nested loops. There are many 
+differnet improvements that can be made on this approach like the using binary search I even sorted the data to 
+get it ready, but ended up not implementing it anyway*/
+
+
 //node filesystem package 
 const fs = require('fs');
 
@@ -21,7 +26,7 @@ function find2020(list){
 }   
 return "Error";
 }
-
+//triple nested loop that lineary goes through the list adding 3 nubmers together to see if they = 2020
 function find2020sum3(list){
     var a, b,c;
     for(a = 0; a <= list.length; a++){
@@ -38,5 +43,6 @@ function find2020sum3(list){
 }   
 return "Error";
 }
-//this is basically a linear compare with 3 nested loops but you could improve this soultion with a binary search like approach.
+
+
 console.log(find2020sum3(lines_sorted));
