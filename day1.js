@@ -26,7 +26,7 @@ function find2020(list){
 }   
 return "Error";
 }
-//triple nested loop that lineary goes through the list adding 3 nubmers together to see if they = 2020
+//triple nested loop that goes through the list in a linear fashion adding 3 nubmers together to see if they = 2020
 function find2020sum3(list){
     var a, b,c;
     for(a = 0; a <= list.length; a++){
