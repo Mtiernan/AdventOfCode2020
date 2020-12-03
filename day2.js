@@ -1,3 +1,5 @@
+//day 2 finished it took me a bit longer than i thought, because i never used reg ex in javascript and had some trouble getting it to work. 
+
 //node filesystem package 
 const fs = require('fs');
 
