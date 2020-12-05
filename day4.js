@@ -1,29 +1,33 @@
 //needs refactoring badly holy shit I ran into someone dumb mistakes because i can't read the problem correctly wtf martin.
 
 //node filesystem package 
+const { timeStamp } = require('console');
 const fs = require('fs');
 
 const data = fs.readFileSync('day4.txt','utf-8');
-const lines = data.split(/\r?\n/);
 
+//first split() isolates each passport and map to remove excess linebreaks
+const rawPassports= data.split(/\r\n\r\n/).map(x => x.replace(/\r\n/g,' '));
 
+const keys = ['byr','iyr','eyr','hgt','hcl','ecl','pid','cid'];
+
+//Although we don't need it I wanted a way to contain that manipulate the passports individually and vaildate individually 
 class Passport{
-    constructor(){
-        this.byr = null;
-        this.iyr = null;
-        this.eyr = null;
-        this.hgt = null;
-        this.hcl = null;
-        this.ecl = null;
-        this.pid = null;
-        this.cid = null;
+    //sets default value for each key as NA
+    constructor(keys){
+        this.properties ={}
+        keys.forEach(x => this.properties[x]="NA")
     }
+
+    //todo implement parameter optional keys
     valid(){
-        if(this.hgt !=null && this.byr!= null && this.iyr != null && this.eyr != null && this.hcl != null && this.ecl != null && this.pid != null){
-            return true;
+        let nullKeys = Object.keys(this.properties).filter(key => this.properties[key] ==="NA")
+        if(nullKeys.length >0 && nullKeys[0] != 'cid'){
+            return false;
         }
-        else return false;
+       else return true;
     }
+    //def need to refactor
     valid2(){
         if(!this.valid())
             return false;
@@ -62,65 +66,37 @@ class Passport{
             return false;
         }
     }
-    loadPassport(dataStream, Start){
-        var x = Start;
-        var line;
-        line = dataStream[x];
-        while(dataStream[x] != "" && dataStream[x] != undefined){
-            var keyValue = line.split(/[\s:]/);
-            for(let i = 0; i < keyValue.length; i+=2){
-                switch(keyValue[i]){
-                    case "byr":
-                        this.byr = keyValue[i+1];
-                        break;
-                    case "iyr":
-                        this.iyr = keyValue[i+1];
-                        break;
-                    case "eyr":
-                        this.eyr = keyValue[i+1];
-                        break;
-                    case "hcl":
-                        this.hcl = keyValue[i+1];
-                        break;
-                    case "ecl":
-                        this.ecl = keyValue[i+1];
-                        break;
-                    case "pid":
-                        this.pid = keyValue[i+1];
-                        break;
-                    case "cid":
-                        this.cid = keyValue[i+1];
-                        break;
-                    case "hgt":
-                        this.hgt =  keyValue[i+1];
-                        break;
-                }
-            }
-            x++;
-            line = dataStream[x];
+    //data is expected in form of a string key:value key:value each key value seperated by a space
+    loadPassport(data){
+        var keyValues= data.split(/\s/);
+        for(let i =0; i< keyValues.length; i++){
+           this.properties[keyValues[i].split(/:/)[0]] = keyValues[i].split(/:/)[1];
         }
-        return x+1;
-    }
+    }   
 }
-function loadPassports(data){
-    var x = 0;
+//helper functions to load all passports
+function loadPassports(data,keys){
     var passports = [];
-    while(data[x] != undefined){
-        let passport = new Passport();
-        x = passport.loadPassport(data,x);
-        passports.push(passport);
+    for(let i =0; i < data.length; i++){
+        let pass = new Passport(keys);
+        pass.loadPassport(data[i]);
+        passports.push(pass);
     }
     return passports;
 }
+
+//could reafactor to a single statement
 function countVaild(passes){
     var sum = 0;
     for(let i = 0; i < passes.length;i++){
         if(passes[i].valid()){
             sum++;
         }
+         
     }
     return sum;
 }
+//could reafactor to a single statement forEach instead of loop
 function countVaild2(passes){
     var sum = 0;
     for(let i = 0; i < passes.length;i++){
@@ -130,8 +106,8 @@ function countVaild2(passes){
     }
     return sum;
 }
-passports = loadPassports(lines);
-
-
+var passports = [];
+passports = loadPassports(rawPassports,keys);
 console.log(countVaild(passports));
-console.log(countVaild2(passports));
+console.log(passports[0]);
+console.log(passports[1]);
