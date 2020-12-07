@@ -1,7 +1,6 @@
 //needs refactoring badly holy shit I ran into someone dumb mistakes because i can't read the problem correctly wtf martin.
 
 //node filesystem package 
-const { timeStamp } = require('console');
 const fs = require('fs');
 
 const data = fs.readFileSync('day4.txt','utf-8');
