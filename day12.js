@@ -1,4 +1,4 @@
-//day12 part2 canablized the implementation of part1
+//day12 part2 canablized the implementation of part1 nvm fixwed
 fs = require('fs')
 const data = fs.readFileSync('day12.txt','utf-8');
 let stream = data.split(/\r\n/);
