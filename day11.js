@@ -1,3 +1,4 @@
+//accidentlly deleted part1 soultion WHOOPS
 const { cpuUsage } = require('process');
 
 fs = require('fs')
